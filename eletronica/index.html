@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eletrónica · Portal de Recursos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/styles.css">
+<style>
+.area-hero{background:linear-gradient(135deg,var(--board-3),var(--board));color:#fff;padding:5rem 0 4rem}
+.area-hero h1{font:700 clamp(2.8rem,7vw,5rem)/.95 var(--display);margin:.4rem 0 1rem}
+.area-hero p{color:#BFD8CB;max-width:680px}
+.breadcrumb{font:.75rem var(--mono);color:#9FC1B0}.breadcrumb a{color:var(--gold);text-decoration:none}
+.module-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.module-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.6rem;min-height:280px;display:flex;flex-direction:column;text-decoration:none;transition:.2s}
+.module-card:hover{transform:translateY(-4px);border-color:var(--copper);box-shadow:var(--shadow)}
+.module-code{font:600 .72rem var(--mono);color:var(--copper)}
+.module-card h2{font:700 1.5rem/1.08 var(--display);margin:1.4rem 0 .8rem}
+.module-card p{color:var(--ink-soft);font-size:.9rem}
+.module-meta{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:auto;padding-top:1.4rem}
+.module-meta span{font:.67rem var(--mono);border:1px solid var(--line);padding:.3rem .5rem;border-radius:7px}
+.module-open{display:block;color:var(--copper);font-weight:700;margin-top:1rem}
+@media(max-width:850px){.module-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="site-header"><div class="container nav-wrap">
+<a class="brand" href="../index.html"><span class="brand-mark"><i></i><i></i><i></i><i></i></span><span><strong>Eletrónica, Automação</strong><small>& Computadores</small></span></a>
+<nav class="desktop-nav"><a href="../index.html">Portal</a><a href="#modulos">Módulos</a></nav>
+</div></header>
+<main>
+<section class="area-hero"><div class="container">
+<div class="breadcrumb"><a href="../index.html">Portal</a> / Eletrónica</div>
+<p class="eyebrow">ÁREA 01</p>
+<h1>Eletrónica</h1>
+<p>UFCDs, sebentas, simulações, exercícios e avaliações organizados por módulo. Escolha primeiro o módulo e depois o recurso que pretende utilizar.</p>
+</div></section>
+<section class="section" id="modulos"><div class="container">
+<div class="section-heading"><div><p class="eyebrow dark">MÓDULOS / UFCD</p><h2>Conteúdos de Eletrónica</h2></div><p>Este nível reúne os módulos da área. Cada módulo tem a sua própria página com sebentas, testes e outros recursos.</p></div>
+<div class="module-grid">
+<a class="module-card" href="6013/index.html">
+<span class="module-code">UFCD 6013 · 25 H</span>
+<h2>Amplificadores com Transístores</h2>
+<p>Classes de funcionamento, amplificadores de potência, cascata, acoplamentos, dimensionamento e amplificador diferencial.</p>
+<div class="module-meta"><span>Sebenta</span><span>Interativo</span><span>Teste</span></div>
+<span class="module-open">Entrar no módulo →</span>
+</a>
+<div class="module-card" aria-disabled="true">
+<span class="module-code">PRÓXIMOS CONTEÚDOS</span>
+<h2>Outras UFCDs</h2>
+<p>Os restantes módulos serão adicionados aqui à medida que forem integrados no portal.</p>
+<div class="module-meta"><span>Em preparação</span></div>
+</div>
+</div>
+</div></section>
+</main>
+<footer class="site-footer"><div class="container footer-grid"><div><strong>Área de Eletrónica</strong><p>Portal de recursos tecnológicos.</p></div><div class="footer-links"><a href="../index.html">Voltar ao portal</a></div></div></footer>
+</body></html>
