@@ -1,4 +1,5 @@
 const resources = [
+  {title:"Sebenta UFCD 6013",area:"Eletrónica",type:"Sebenta",description:"Sebenta interativa completa de Amplificadores com Transístores.",tags:["UFCD 6013","amplificadores","sebenta","interativo"],url:"eletronica/6013/sebenta.html",status:"Disponível"},
   {title:"Teste 6013 · Cascata e Acoplamento",area:"Eletrónica",type:"Avaliação",description:"Avaliação interativa associada à UFCD 6013, com conteúdos de cascata e acoplamento.",tags:["UFCD 6013","amplificadores","cascata","acoplamento"],url:"https://epaveglauco-gif.github.io/EE-MOD-6013/index.html",status:"Disponível"},
   {title:"Teste de Eletricidade",area:"Eletrónica",type:"Avaliação",description:"Recurso interativo para avaliação de conteúdos de eletricidade.",tags:["eletricidade","teste","interativo"],url:"https://epaveglauco-gif.github.io/Eletronica-1C/index.html",status:"Disponível"},
   {title:"Eletrónica — recurso interativo",area:"Eletrónica",type:"Avaliação",description:"Página interativa de apoio à avaliação e consolidação de conhecimentos.",tags:["eletrónica","teste","aprendizagem"],url:"https://epaveglauco-gif.github.io/Eletronica-/index.html",status:"Disponível"},
