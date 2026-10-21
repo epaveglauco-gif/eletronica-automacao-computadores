@@ -1,0 +1,926 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UFCD 6013 — Amplificadores com Transístores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board:#0F3D2E; --board-2:#175243; --board-3:#0B2E22;
+    --copper:#C87A3E; --copper-light:#E3A466; --gold:#E7B84E;
+    --paper:#FAF6EC; --paper-2:#F1EAD8; --surface:#FFFFFF;
+    --ink:#1C2420; --ink-soft:#4B564F; --line:#DDD5C0; --heading:#0F3D2E;
+    --phosphor:#FFB454; --phosphor-dim:rgba(255,180,84,.22);
+    --red:#B5322B; --green-ok:#2E8B57; --radius:14px;
+    --font-display:'Space Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-body:'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top, 0px);
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#101713; --paper-2:#17221C; --surface:#1B2821;
+      --ink:#E4ECE7; --ink-soft:#A9B8AF; --line:#2B3B32; --heading:#E7C27A;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#101713; --paper-2:#17221C; --surface:#1B2821;
+    --ink:#E4ECE7; --ink-soft:#A9B8AF; --line:#2B3B32; --heading:#E7C27A;
+  }
+  html{ scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top, 0px); background:var(--paper); }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  ::selection{ background:var(--gold); color:var(--board-3); }
+  h1,h2,h3,h4{ font-family:var(--font-display); color:var(--heading); margin:0 0 .4em; letter-spacing:-.01em; line-height:1.15; }
+  h2{ font-size:1.9rem; } h3{ font-size:1.25rem; }
+  p{ margin:0 0 1em; }
+  a{ color:var(--copper); }
+  :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+  img,svg{ max-width:100%; }
+  .kicker-sec{ font-family:var(--font-mono); font-size:.8rem; color:var(--copper); font-weight:600; margin-bottom:.4em; }
+
+  #sweep{ position:fixed; top:env(safe-area-inset-top, 0px); left:0; height:3px; width:0%; background:linear-gradient(90deg,var(--copper),var(--phosphor)); z-index:999; box-shadow:0 0 8px var(--phosphor); }
+
+  .shell{ display:flex; }
+  nav.board-nav{ background:var(--board); color:var(--paper); width:240px; flex-shrink:0; position:sticky; top:env(safe-area-inset-top, 0px); height:100vh; height:100dvh; overflow-y:auto; padding:1.4rem 1.1rem; border-right:1px solid var(--board-3); }
+  nav.board-nav .brand{ font-size:.85rem; color:#BFD8CB; margin-bottom:1.6rem; line-height:1.4; }
+  nav.board-nav .brand b{ color:#fff; font-size:1.05rem; display:block; font-family:var(--font-display); margin-bottom:.2em; }
+  nav.board-nav ul{ list-style:none; margin:0; padding:0; }
+  nav.board-nav a{ display:flex; gap:.6em; align-items:baseline; text-decoration:none; color:#C9DED4; font-size:.88rem; padding:.5rem .55rem; border-radius:8px; border-left:2px solid transparent; }
+  nav.board-nav a .tag{ font-family:var(--font-mono); font-size:.72rem; color:var(--copper-light); flex-shrink:0; }
+  nav.board-nav a:hover{ background:var(--board-2); color:#fff; }
+  nav.board-nav a.active{ background:var(--board-2); color:#fff; border-left-color:var(--gold); }
+  nav.board-nav a.active .tag{ color:var(--gold); }
+  main{ flex:1; min-width:0; }
+  .mobile-nav{ display:none; }
+
+  .hero{ background:radial-gradient(ellipse at 20% 0%, #124434 0%, var(--board) 55%, var(--board-3) 100%); color:#fff; padding:3.4rem 3rem 3rem; }
+  .hero .kicker{ font-family:var(--font-mono); color:var(--gold); font-size:.82rem; margin-bottom:.8em; }
+  .hero h1{ color:#fff; font-size:clamp(1.9rem, 4vw, 2.8rem); max-width:820px; line-height:1.06; margin-bottom:.35em; }
+  .hero .sub{ color:#BFD8CB; font-size:1.06rem; max-width:640px; margin-bottom:2rem; }
+  .scope-wrap{ display:grid; grid-template-columns:1.5fr 1fr; gap:1.4rem; }
+  .scope{ background:#08160F; border-radius:var(--radius); padding:1.1rem 1.2rem 1rem; border:1px solid #1E5041; box-shadow:inset 0 0 40px rgba(0,0,0,.5), 0 12px 30px rgba(0,0,0,.35); }
+  .screen{ position:relative; background:#0A1D14; border-radius:8px; overflow:hidden; border:1px solid #143829;
+    background-image:linear-gradient(rgba(255,180,84,.09) 1px, transparent 1px), linear-gradient(90deg, rgba(255,180,84,.09) 1px, transparent 1px); background-size:20px 20px; }
+  .scope .screen{ height:200px; }
+  .screen svg{ position:absolute; inset:0; width:100%; height:100%; display:block; max-width:none; }
+  .trace-track{ animation:sweep-scroll 3.6s linear infinite; }
+  @keyframes sweep-scroll{ from{ transform:translateX(0); } to{ transform:translateX(-160px); } }
+  .trace-path{ fill:none; stroke:#FFB454; stroke-width:2.6; filter:drop-shadow(0 0 4px #FFB454); stroke-linecap:round; stroke-linejoin:round; }
+  .scope-controls{ display:flex; gap:.5rem; margin-top:.9rem; flex-wrap:wrap; }
+  .scope-controls button{ font-family:var(--font-mono); font-size:.8rem; padding:.5em .95em; background:#0E2C21; color:#BFD8CB; border:1px solid #1E5041; border-radius:7px; cursor:pointer; }
+  .scope-controls button:hover{ border-color:var(--copper-light); color:#fff; }
+  .scope-controls button.active{ background:var(--copper); color:#1A1006; border-color:var(--copper); font-weight:600; }
+  .readout-panel{ background:#0E2C21; border:1px solid #1E5041; border-radius:var(--radius); padding:1.2rem 1.3rem; display:flex; flex-direction:column; gap:.85rem; justify-content:center; }
+  .rp-title{ font-family:var(--font-display); color:var(--gold); font-size:.95rem; font-weight:600; }
+  .rp-row{ display:flex; justify-content:space-between; gap:1rem; border-bottom:1px dashed #1E5041; padding-bottom:.6rem; }
+  .rp-row:last-child{ border-bottom:none; padding-bottom:0; }
+  .rp-label{ font-size:.84rem; color:#9FC1B0; }
+  .rp-value{ font-family:var(--font-mono); font-size:.9rem; color:#fff; text-align:right; max-width:58%; }
+
+  .section{ padding:3.2rem 3rem; max-width:900px; margin:0 auto; }
+  .section + .section{ border-top:1px solid var(--line); }
+  .card{ background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius); padding:1.3rem 1.4rem; }
+  .card h4{ font-size:1rem; }
+  .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; margin:1.2rem 0; }
+  ul.check{ list-style:none; margin:0 0 1em; padding:0; }
+  ul.check li{ position:relative; padding-left:1.7em; margin-bottom:.55em; }
+  ul.check li::before{ content:"\2713"; position:absolute; left:0; color:var(--green-ok); font-weight:700; }
+  ul.plain{ padding-left:1.3em; margin:0; }
+  ul.plain li{ margin-bottom:.4em; }
+  .table-wrap{ overflow-x:auto; margin:1rem 0; }
+  table{ width:100%; border-collapse:collapse; font-size:.92rem; min-width:480px; }
+  th{ background:var(--board); color:#fff; font-family:var(--font-display); font-weight:600; font-size:.85rem; text-align:left; padding:.6em .7em; }
+  td{ padding:.6em .7em; border-bottom:1px solid var(--line); vertical-align:top; }
+  tr:nth-child(even) td{ background:rgba(200,122,62,.06); }
+  .formula{ font-family:var(--font-mono); background:#0E2C21; color:#FFB454; border-radius:10px; padding:1rem 1.2rem; margin:1rem 0; font-size:.94rem; line-height:1.7; overflow-x:auto; border-left:3px solid var(--gold); }
+  .formula .comment{ color:#9FC1B0; }
+  .example{ border:1px solid var(--line); border-left:3px solid var(--copper); border-radius:0 10px 10px 0; padding:1rem 1.3rem; margin:1.2rem 0; background:var(--surface); }
+  .example .ex-title{ font-family:var(--font-display); font-size:.92rem; color:var(--copper); margin-bottom:.5em; font-weight:600; }
+  .note{ background:var(--phosphor-dim); border-left:3px solid var(--copper); border-radius:0 10px 10px 0; padding:.9rem 1.2rem; margin:1.2rem 0; font-size:.94rem; }
+  .note b{ color:var(--heading); }
+  .steps{ counter-reset:step; list-style:none; margin:0; padding:0; }
+  .steps li{ counter-increment:step; position:relative; padding:.7rem 0 .7rem 3rem; border-bottom:1px solid var(--line); }
+  .steps li:last-child{ border-bottom:none; }
+  .steps li::before{ content:counter(step); position:absolute; left:0; top:.55rem; width:2rem; height:2rem; border-radius:50%; background:var(--board); color:#fff; font-family:var(--font-mono); font-weight:600; font-size:.85rem; display:flex; align-items:center; justify-content:center; }
+  .mini-scope{ background:#08160F; border-radius:10px; padding:.9rem 1rem; border:1px solid #1E5041; margin:1.1rem 0; }
+  .mini-scope .screen{ height:130px; background-size:18px 18px; }
+  .legend{ display:flex; gap:1.4rem; margin-top:.6rem; font-family:var(--font-mono); font-size:.76rem; color:#BFD8CB; flex-wrap:wrap; }
+  .legend span{ display:flex; align-items:center; gap:.4em; }
+  .swatch{ width:14px; height:3px; display:inline-block; border-radius:2px; }
+  /* Esquemas mantêm fundo claro (papel de esquema) em ambos os temas */
+  .circuit-wrap{ background:#FFFFFF; border:1px solid var(--line); border-radius:var(--radius); padding:1.2rem; margin:1.2rem 0; overflow-x:auto; }
+  .circuit-wrap svg{ width:100%; min-width:420px; height:auto; display:block; }
+  .cw-caption{ font-size:.86rem; color:#4B564F; margin-top:.6rem; text-align:center; }
+  .toggle-row{ display:flex; justify-content:center; gap:.6rem; margin-top:.8rem; flex-wrap:wrap; }
+  .toggle-row button{ font-family:var(--font-mono); font-size:.78rem; padding:.45em .9em; border-radius:7px; border:1px solid #DDD5C0; background:#F1EAD8; color:#1C2420; cursor:pointer; }
+  .mini-scope .toggle-row button{ background:#0E2C21; color:#BFD8CB; border-color:#1E5041; }
+  .toggle-row button.active, .mini-scope .toggle-row button.active{ background:var(--copper); color:#fff; border-color:var(--copper); }
+  .pp-auto .q1-group{ animation:pulse1 3.2s steps(1) infinite; }
+  .pp-auto .q2-group{ animation:pulse2 3.2s steps(1) infinite; }
+  .pp-pos .q2-group, .pp-neg .q1-group{ opacity:.22; }
+  @keyframes pulse1{ 0%,50%{opacity:1;} 50.01%,100%{opacity:.22;} }
+  @keyframes pulse2{ 0%,50%{opacity:.22;} 50.01%,100%{opacity:1;} }
+  .flow-dash{ stroke-dasharray:6 5; animation:flow 1s linear infinite; }
+  @keyframes flow{ to{ stroke-dashoffset:-22; } }
+  .coupling-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:1.2rem 0; }
+  .coupling-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:1rem; text-align:center; }
+  .coupling-card svg{ width:100%; height:70px; background:#fff; border-radius:8px; }
+  .coupling-card h4{ font-size:.95rem; margin:.6em 0 .3em; }
+  .coupling-card p{ font-size:.86rem; color:var(--ink-soft); margin:0; }
+  footer{ background:var(--board-3); color:#9FC1B0; padding:2.4rem 3rem; font-size:.88rem; }
+  footer b{ color:#fff; }
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
+  @media (max-width:980px){
+    .shell{ flex-direction:column; }
+    nav.board-nav{ display:none; }
+    .mobile-nav{ display:flex; overflow-x:auto; gap:.4rem; background:var(--board); padding:.7rem .9rem; position:sticky; top:env(safe-area-inset-top, 0px); z-index:50; border-bottom:1px solid var(--board-3); }
+    .mobile-nav a{ flex-shrink:0; font-size:.8rem; color:#C9DED4; text-decoration:none; padding:.4em .8em; border-radius:999px; background:var(--board-2); white-space:nowrap; }
+    .mobile-nav a.active{ background:var(--copper); color:#1A1006; }
+    .hero{ padding:2.2rem 1.3rem; }
+    .scope-wrap{ grid-template-columns:1fr; }
+    .section{ padding:2.4rem 1.3rem; }
+    .grid-2, .coupling-grid{ grid-template-columns:1fr; }
+    footer{ padding:2rem 1.3rem; }
+  }
+
+  .calc{ background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius); padding:1.2rem 1.3rem; margin:1.2rem 0; }
+  .calc-row{ display:flex; flex-wrap:wrap; gap:1rem 1.6rem; align-items:flex-end; margin-bottom:1rem; }
+  .calc label{ display:flex; flex-direction:column; gap:.3rem; font-size:.82rem; color:var(--ink-soft); font-family:var(--font-mono); }
+  .calc input{ font:inherit; font-family:var(--font-mono); font-size:.95rem; width:7.5rem; padding:.45em .6em; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink); }
+  .calc input:focus{ outline:2px solid var(--gold); outline-offset:1px; }
+  .seg{ display:flex; gap:.35rem; }
+  .seg button{ font-family:var(--font-mono); font-size:.85rem; min-width:2.4rem; padding:.45em .7em; border-radius:8px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; }
+  .seg button.active{ background:var(--copper); border-color:var(--copper); color:#1A1006; font-weight:600; }
+  .gains{ display:flex; flex-wrap:wrap; gap:.8rem; }
+  .result-strip{ display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; margin-top:1rem; }
+  .result-strip div{ background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:.7rem .9rem; }
+  .result-strip span{ display:block; font-size:.76rem; color:var(--ink-soft); font-family:var(--font-mono); }
+  .result-strip b{ font-family:var(--font-display); font-size:1.35rem; color:var(--heading); }
+  .calc-warn{ margin-top:.8rem; font-size:.9rem; color:var(--red); display:none; }
+  .calc-warn.on{ display:block; }
+  .stage-props{ display:grid; grid-template-columns:repeat(3,1fr); gap:.8rem; margin:1rem 0; }
+  .stage-props div{ background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--copper); border-radius:10px; padding:.8rem .9rem; font-size:.9rem; }
+  .stage-props b{ display:block; font-family:var(--font-display); color:var(--heading); margin-bottom:.2em; }
+  .cpl-readout{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1rem; align-items:stretch; }
+  .cpl-readout .rp{ background:#0E2C21; border:1px solid #1E5041; border-radius:10px; padding:.9rem 1rem; color:#fff; display:flex; flex-direction:column; gap:.55rem; }
+  .cpl-readout .rp-row{ border-bottom-color:#1E5041; }
+  .cpl-readout .mini-scope{ margin:0; }
+  .ok-txt{ color:#7FE7C4 !important; } .ko-txt{ color:#FF8F86 !important; }
+  @media (max-width:980px){ .result-strip, .stage-props, .cpl-readout{ grid-template-columns:1fr; } }
+  .quiz{ background:var(--paper-2); border:1px solid var(--line); border-radius:var(--radius); padding:1.4rem 1.5rem; }
+  .quiz-top{ display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:.8rem; font-family:var(--font-mono); font-size:.82rem; color:var(--ink-soft); }
+  .quiz-bar{ height:4px; background:var(--line); border-radius:4px; overflow:hidden; margin-bottom:1.2rem; }
+  .quiz-bar i{ display:block; height:100%; width:0; background:var(--copper); transition:width .3s; }
+  .quiz-q{ font-family:var(--font-display); font-size:1.15rem; font-weight:600; color:var(--heading); margin-bottom:1rem; line-height:1.3; }
+  .quiz-opts{ display:grid; gap:.6rem; }
+  .quiz-opts button{ text-align:left; font:inherit; font-size:.97rem; padding:.75rem 1rem; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; display:flex; gap:.7rem; align-items:baseline; }
+  .quiz-opts button .k{ font-family:var(--font-mono); color:var(--copper); font-weight:600; flex-shrink:0; }
+  .quiz-opts button:hover:not([disabled]){ border-color:var(--copper); }
+  .quiz-opts button.right{ border-color:var(--green-ok); background:rgba(46,139,87,.14); }
+  .quiz-opts button.wrong{ border-color:var(--red); background:rgba(181,50,43,.12); }
+  .quiz-opts button[disabled]{ cursor:default; }
+  .quiz-fb{ margin-top:1rem; padding:.9rem 1.1rem; border-radius:0 10px 10px 0; border-left:3px solid var(--copper); background:var(--phosphor-dim); font-size:.94rem; }
+  .quiz-fb b{ color:var(--heading); }
+  .quiz-actions{ display:flex; justify-content:flex-end; gap:.6rem; margin-top:1rem; flex-wrap:wrap; }
+  .btn{ font-family:var(--font-display); font-weight:600; font-size:.95rem; padding:.6em 1.2em; border-radius:8px; border:1px solid var(--copper); background:var(--copper); color:#1A1006; cursor:pointer; }
+  .btn.ghost{ background:transparent; color:var(--ink); border-color:var(--line); }
+  .quiz-score{ font-family:var(--font-display); font-size:3rem; font-weight:700; color:var(--heading); line-height:1; margin:.2em 0 .2em; }
+  .quiz-review{ margin-top:1.2rem; padding:0; list-style:none; }
+  .quiz-review li{ padding:.6rem 0; border-top:1px solid var(--line); font-size:.92rem; }
+  .quiz-review li b.ok{ color:var(--green-ok); } .quiz-review li b.ko{ color:var(--red); }
+  @media (max-width:980px){ .quiz{ padding:1.1rem 1rem; } }
+</style>
+</head>
+<body>
+<div id="sweep"></div>
+<nav class="mobile-nav" id="mobileNav" aria-label="Secções"></nav>
+<div class="shell">
+  <nav class="board-nav" aria-label="Secções">
+    <div class="brand"><b>UFCD 6013</b>Amplificadores com Transístores</div>
+    <ul id="navList"></ul>
+  </nav>
+  <main>
+    <header class="hero">
+      <div class="kicker">Sebenta interativa, UFCD 6013, 25 horas</div>
+      <h1>Amplificadores com Transístores</h1>
+      <p class="sub">Escolhe uma classe no osciloscópio e vê como cada uma molda a corrente de coletor, e o compromisso entre fidelidade e rendimento que isso implica.</p>
+      <div class="scope-wrap">
+        <div class="scope">
+          <div class="screen" id="heroScreen" role="img" aria-label="Forma de onda da corrente de coletor"></div>
+          <div class="scope-controls" id="heroControls"></div>
+        </div>
+        <div class="readout-panel" aria-live="polite">
+          <div class="rp-title">Leitura do canal</div>
+          <div class="rp-row"><span class="rp-label">Ângulo de condução</span><span class="rp-value" id="rAngle">—</span></div>
+          <div class="rp-row"><span class="rp-label">Rendimento típico</span><span class="rp-value" id="rEff">—</span></div>
+          <div class="rp-row"><span class="rp-label">Distorção</span><span class="rp-value" id="rDist">—</span></div>
+          <div class="rp-row"><span class="rp-label">Aplicação típica</span><span class="rp-value" id="rApp">—</span></div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section" id="s-objetivos">
+      <div class="kicker-sec">§01</div>
+      <h2>Objetivos da UFCD</h2>
+      <p>Esta UFCD desenvolve a capacidade de caracterizar, dimensionar e analisar circuitos amplificadores baseados em transístores, dando continuidade à UFCD 6012 (Transístor bipolar) e servindo de base à UFCD 6014 (Amplificadores áudio).</p>
+      <ul class="check">
+        <li>Caracterizar classes de funcionamento (A, B, C e AB)</li>
+        <li>Caracterizar o amplificador de potência áudio</li>
+        <li>Identificar tipos de acoplamento entre andares amplificadores</li>
+        <li>Dimensionar amplificadores</li>
+        <li>Caracterizar o circuito amplificador diferencial</li>
+      </ul>
+      <div class="note"><b>Fio condutor:</b> como é que o ponto de funcionamento (polarização) de um transístor determina a forma como ele amplifica um sinal, o seu rendimento e a distorção introduzida? Cada classe responde de forma diferente, com compromissos distintos entre fidelidade e eficiência.</div>
+    </section>
+
+    <section class="section" id="s-revisao">
+      <div class="kicker-sec">§02</div>
+      <h2>O transístor como amplificador</h2>
+      <p>Um transístor bipolar (BJT) funciona como uma fonte de corrente controlada: uma pequena variação de I<sub>B</sub> provoca uma variação ampliada e proporcional de I<sub>C</sub>, segundo o ganho β (I<sub>C</sub> ≈ β × I<sub>B</sub>).</p>
+      <div class="table-wrap"><table>
+        <tr><th>Configuração</th><th>Terminal comum</th><th>Ganho de tensão</th><th>Aplicação</th></tr>
+        <tr><td>Emissor comum (EC)</td><td>Emissor</td><td>Elevado</td><td>Amplificação geral</td></tr>
+        <tr><td>Base comum (BC)</td><td>Base</td><td>Elevado</td><td>Alta frequência</td></tr>
+        <tr><td>Coletor comum (CC)</td><td>Coletor</td><td>≈ 1</td><td>Adaptação de impedâncias</td></tr>
+      </table></div>
+      <div class="grid-2">
+        <div class="card">
+          <h4>Redes de polarização</h4>
+          <ul class="plain">
+            <li><b>Fixa</b>: simples, pouco estável (sensível a β)</li>
+            <li><b>Divisor de tensão</b>: a mais usada, praticamente independente de β</li>
+            <li><b>Realimentação de coletor</b>: melhora a estabilidade</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Parâmetros do amplificador</h4>
+          <ul class="plain">
+            <li>A<sub>v</sub> = V<sub>out</sub> / V<sub>in</sub></li>
+            <li>Z<sub>in</sub> ≈ R1 ‖ R2 ‖ β·r<sub>e</sub></li>
+            <li>Z<sub>out</sub> ≈ R<sub>C</sub></li>
+            <li>r<sub>e</sub> ≈ V<sub>T</sub> / I<sub>C</sub> (V<sub>T</sub> ≈ 26 mV)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="example">
+        <div class="ex-title">Exemplo resolvido: ponto Q</div>
+        <p style="margin:0">V<sub>CC</sub>=12 V, R1=22 kΩ, R2=4,7 kΩ, R<sub>C</sub>=2,2 kΩ, R<sub>E</sub>=1 kΩ, β=150 → V<sub>B</sub>≈2,12 V → V<sub>E</sub>≈1,42 V → I<sub>CQ</sub>≈1,42 mA → V<sub>CEQ</sub>≈7,46 V. Ponto sensivelmente a meio da reta de carga, típico de classe A.</p>
+      </div>
+    </section>
+
+    <section class="section" id="s-classes">
+      <div class="kicker-sec">§03</div>
+      <h2>Classes A, B, AB e C</h2>
+      <p>A classe define a fração do ciclo durante a qual o transístor conduz, e determina o compromisso entre <b>fidelidade</b> (distorção) e <b>rendimento</b> energético. Volta ao osciloscópio no topo da página para comparar as quatro formas de onda.</p>
+      <div class="table-wrap"><table>
+        <tr><th>Classe</th><th>Condução</th><th>Rendimento</th><th>Distorção</th><th>Aplicação</th></tr>
+        <tr><td>A</td><td>360°</td><td>≈25% (até 50%)</td><td>Muito baixa</td><td>Alta fidelidade</td></tr>
+        <tr><td>B</td><td>180°</td><td>até ≈78,5%</td><td>Cruzamento</td><td>Potência, push-pull</td></tr>
+        <tr><td>AB</td><td>180°–360°</td><td>≈50–70%</td><td>Baixa</td><td>Potência áudio</td></tr>
+        <tr><td>C</td><td>&lt;180°</td><td>&gt;80–90%</td><td>Elevada</td><td>RF sintonizado</td></tr>
+      </table></div>
+      <div class="formula">
+        η = P<sub>AC</sub> / P<sub>DC</sub><span class="comment">  // rendimento</span><br>
+        P<sub>DC</sub> = V<sub>CC</sub> × I<sub>CQ</sub><br>
+        P<sub>AC(máx)</sub> = (V<sub>CEQ</sub> × I<sub>CQ</sub>) / 2<span class="comment">  // classe A, excursão simétrica</span>
+      </div>
+      <div class="note"><b>Classe AB, o compromisso vencedor:</b> ao polarizar o par push-pull ligeiramente acima do corte (pequena I<sub>CQ</sub>), elimina-se a distorção de cruzamento da classe B sem cair para o rendimento baixo da classe A. É por isso a classe mais usada em amplificadores de potência áudio comerciais.</div>
+    </section>
+
+    <section class="section" id="s-potencia">
+      <div class="kicker-sec">§04</div>
+      <h2>Amplificadores de potência áudio</h2>
+      <p>O andar de potência fornece a corrente e a tensão para excitar uma carga de baixa impedância (altifalante, 4–8 Ω), ao contrário dos andares de pequeno sinal, que só amplificam tensão.</p>
+      <div class="formula">P<sub>out</sub> = V<sub>pico</sub>² / (2 × R<sub>L</sub>)<span class="comment">  // onda sinusoidal</span></div>
+      <div class="circuit-wrap">
+        <svg id="pushpullSvg" viewBox="0 0 620 320" role="img" aria-label="Andar push-pull em simetria complementar"></svg>
+        <div class="cw-caption">Andar push-pull em simetria complementar: Q1 (NPN) amplifica o semiciclo positivo, Q2 (PNP) o negativo.</div>
+        <div class="toggle-row">
+          <button class="pp-btn active" data-phase="auto">Alternar automaticamente</button>
+          <button class="pp-btn" data-phase="pos">Semiciclo positivo (Q1)</button>
+          <button class="pp-btn" data-phase="neg">Semiciclo negativo (Q2)</button>
+        </div>
+      </div>
+      <h3 style="margin-top:2rem">Distorção de cruzamento</h3>
+      <p>Na classe B pura, junto à passagem do sinal por zero, nenhum dos dois transístores conduz: é preciso vencer a tensão base-emissor (≈0,6–0,7 V) antes de cada um iniciar a condução.</p>
+      <div class="mini-scope">
+        <div class="screen" id="crossoverScreen" role="img" aria-label="Sinal ideal comparado com a saída em classe B"></div>
+        <div class="legend">
+          <span><i class="swatch" style="background:#7A8C82"></i>Sinal ideal</span>
+          <span><i class="swatch" style="background:#FFB454"></i>Saída em classe B</span>
+        </div>
+      </div>
+      <h3 style="margin-top:2rem">Dissipação térmica</h3>
+      <div class="formula">T<sub>J</sub> = T<sub>A</sub> + P<sub>D</sub> × R<sub>θJA</sub></div>
+      <div class="circuit-wrap">
+        <svg id="deratingSvg" viewBox="0 0 560 260" role="img" aria-label="Curva de derating térmico"></svg>
+        <div class="cw-caption">Curva de derating térmico: a potência dissipável máxima decresce linearmente até T<sub>J(máx)</sub>.</div>
+      </div>
+    </section>
+
+    <section class="section" id="s-cascata">
+      <div class="kicker-sec">§05</div>
+      <h2>Montagens em cascata</h2>
+      <p>Um rádio ou uma televisão recebem da antena um sinal muito fraco, com amplitude na ordem dos <b>microvolts</b>. Para o transformar em som ou imagem, esse sinal tem de ser amplificado milhares de vezes.</p>
+      <p>Um único andar amplificador não consegue dar um ganho tão grande. Por isso ligam-se vários andares em sequência, de modo que cada um volte a amplificar o sinal que recebe do anterior. A esta ligação chama-se <b>ligação em cascata</b>.</p>
+      <ul class="check">
+        <li>A saída do 1.º andar liga à entrada do 2.º andar.</li>
+        <li>A saída do 2.º andar liga à entrada do 3.º andar, e assim sucessivamente.</li>
+        <li>Na notação, a saída de um andar é a entrada do seguinte: v<sub>o1</sub> = v<sub>i2</sub>, v<sub>o2</sub> = v<sub>i3</sub>.</li>
+      </ul>
+
+      <h3>O que descreve cada andar</h3>
+      <div class="stage-props">
+        <div><b>Impedância de entrada Z<sub>in</sub></b>A carga que o andar apresenta ao andar anterior (ou à fonte de sinal).</div>
+        <div><b>Impedância de saída Z<sub>out</sub></b>A "resistência interna" com que o andar alimenta o seguinte.</div>
+        <div><b>Ganho de tensão A<sub>v</sub></b>Quantas vezes o andar amplifica o sinal que recebe.</div>
+      </div>
+      <p>A cascata é muito usada na construção de amplificadores completos, porque permite combinar andares diferentes e obter características globais mais próximas das ideais.</p>
+
+      <h3>Ganho total</h3>
+      <p>O ganho total é a razão entre o sinal na saída do último andar e o sinal aplicado à entrada do primeiro, medidos em amplitude pico a pico (pp):</p>
+      <div class="formula">G = S<sub>saída</sub> / S<sub>entrada</sub><br>
+G = G₁ × G₂ × G₃ × …   <span class="comment">// ganhos em valor absoluto multiplicam-se</span><br>
+G(dB) = G₁(dB) + G₂(dB) + G₃(dB) + …   <span class="comment">// em decibéis somam-se</span></div>
+
+      <div class="example">
+        <div class="ex-title">Exemplo resolvido: dois andares com ganho 40</div>
+        Entrada: S₀ = 0,01 V<sub>pp</sub>. Cada andar tem G = 40. Qual a amplitude de saída e o ganho total?
+        <ol class="steps" style="margin-top:.8rem">
+          <li>Após o 1.º andar: S₁ = G₁ × S₀ = 40 × 0,01 = <b>0,4 V<sub>pp</sub></b></li>
+          <li>Após o 2.º andar: S₂ = G₂ × S₁ = 40 × 0,4 = <b>16 V<sub>pp</sub></b></li>
+          <li>Ganho total: G = S₂ / S₀ = 16 / 0,01 = <b>1600</b>, o mesmo que G₁ × G₂ = 40 × 40 (≈ 64 dB)</li>
+        </ol>
+      </div>
+
+      <h3>Simulador de cascata</h3>
+      <p>Escolhe o número de andares, a amplitude de entrada e o ganho de cada andar. O esquema mostra o sinal a crescer de andar para andar.</p>
+      <div class="calc" id="cascCalc">
+        <div class="calc-row">
+          <label><span>N.º de andares</span><span class="seg" id="cascN"><button data-n="1">1</button><button data-n="2" class="active">2</button><button data-n="3">3</button><button data-n="4">4</button></span></label>
+          <label><span>Entrada S₀ (V<sub>pp</sub>)</span><input type="number" id="cascVin" value="0.01" min="0" step="0.001" inputmode="decimal"></label>
+        </div>
+        <div class="gains" id="cascGains"></div>
+        <div class="circuit-wrap" style="margin-bottom:0">
+          <svg id="cascadeSvg" viewBox="0 0 680 210" role="img" aria-label="Diagrama de blocos da cascata com o sinal a crescer entre andares"></svg>
+        </div>
+        <div class="table-wrap"><table id="cascTable"></table></div>
+        <div class="result-strip">
+          <div><span>Ganho total G</span><b id="cascG">—</b></div>
+          <div><span>Ganho total em dB</span><b id="cascDb">—</b></div>
+          <div><span>Saída S<sub>n</sub></span><b id="cascOut">—</b></div>
+        </div>
+        <div class="calc-warn" id="cascWarn">Atenção: uma saída acima de cerca de 20 V<sub>pp</sub> já não cabe numa alimentação de 20 V. Na prática, o último andar entraria em corte e saturação (clipping).</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="example" style="margin:0">
+          <div class="ex-title">Ganho em valor absoluto: multiplica-se</div>
+          A₁=10, A₂=15, A₃=8<br>Ganho total = 10×15×8 = <b>1200</b>
+        </div>
+        <div class="example" style="margin:0">
+          <div class="ex-title">Ganho em dB: soma-se</div>
+          A₁=20 dB, A₂=23,5 dB, A₃=18 dB<br>Ganho total = <b>61,5 dB</b>
+        </div>
+      </div>
+      <div class="note"><b>Efeito de carga.</b> A impedância de entrada de um andar carrega a saída do anterior. No dimensionamento procura-se Z<sub>in</sub> ≫ Z<sub>out</sub> do andar anterior, para que o sinal passe sem perdas significativas.</div>
+    </section>
+
+    <section class="section" id="s-acoplamento">
+      <div class="kicker-sec">§06</div>
+      <h2>Acoplamento entre andares</h2>
+      <p>Para o sinal ser amplificado sucessivamente, os andares têm de estar interligados. A essa ligação chama-se <b>acoplamento</b>. Mas ligar a saída de um andar diretamente à entrada do seguinte, com um simples condutor, em geral não funciona.</p>
+
+      <h3>Porque não basta um fio?</h3>
+      <p>No ponto de funcionamento (ponto Q) de cada andar, a tensão contínua no coletor do 1.º andar é de <b>10 V</b>, e a base do 2.º andar está polarizada a <b>3 V</b>. Se os ligarmos diretamente, os 10 V do 1.º andar ficam aplicados à base de T₂ e alteram o seu ponto de funcionamento.</p>
+      <div class="circuit-wrap">
+        <svg id="couplingSvg" viewBox="0 0 640 300" role="img" aria-label="Dois andares em emissor comum ligados por acoplamento direto ou por condensador"></svg>
+        <div class="toggle-row">
+          <button class="cp-btn" data-mode="direct">Ligação direta (fio)</button>
+          <button class="cp-btn active" data-mode="cap">Condensador de acoplamento</button>
+        </div>
+        <div class="cw-caption" id="cpCaption"></div>
+      </div>
+      <div class="cpl-readout">
+        <div class="rp" aria-live="polite">
+          <div class="rp-row"><span class="rp-label">V<sub>C1</sub> (saída DC do 1.º andar)</span><span class="rp-value">10 V</span></div>
+          <div class="rp-row"><span class="rp-label">V<sub>B2</sub> (base do 2.º andar)</span><span class="rp-value" id="cpVb">3 V</span></div>
+          <div class="rp-row"><span class="rp-label">Ponto Q de T₂</span><span class="rp-value" id="cpQ">Mantém-se</span></div>
+          <div class="rp-row"><span class="rp-label">Sinal AC</span><span class="rp-value" id="cpAc">Passa para T₂</span></div>
+        </div>
+        <div class="mini-scope">
+          <div class="screen"><svg id="cpScope" viewBox="0 0 300 130" preserveAspectRatio="none"></svg></div>
+          <div class="legend"><span><i class="swatch" style="background:#7FE7C4"></i>Saída do 2.º andar</span></div>
+        </div>
+      </div>
+
+      <p style="margin-top:1.4rem">O acoplamento tem, portanto, de cumprir duas condições:</p>
+      <ul class="check">
+        <li>A tensão <b>contínua</b> da saída de um andar não pode chegar à entrada do andar seguinte.</li>
+        <li>O <b>sinal</b> da saída de um andar tem de passar inalterado para a entrada do seguinte.</li>
+      </ul>
+      <p>Ou seja, o acoplamento deve <b>bloquear tensões contínuas e deixar passar tensões alternadas</b>. Condensadores e transformadores fazem exatamente isso.</p>
+
+      <div class="coupling-grid">
+        <div class="coupling-card"><svg viewBox="0 0 160 60" id="cRC" aria-hidden="true"></svg><h4>Condensador (RC)</h4><p>O <b>condensador de acoplamento</b> bloqueia DC e deixa passar o sinal. Barato e simples.</p></div>
+        <div class="coupling-card"><svg viewBox="0 0 160 60" id="cTransf" aria-hidden="true"></svg><h4>Transformador</h4><p>Bloqueia DC, permite adaptar impedâncias e dá isolamento galvânico. Mais caro e volumoso.</p></div>
+        <div class="coupling-card"><svg viewBox="0 0 160 60" id="cDirect" aria-hidden="true"></svg><h4>Direto</h4><p>Deixa passar DC, por isso a polarização dos andares tem de ser projetada em conjunto.</p></div>
+      </div>
+      <p>No acoplamento por transformador, o primário fica no circuito de coletor do 1.º andar e o secundário entrega o sinal à base do 2.º. O custo relativamente elevado dos transformadores faz com que os <b>condensadores</b> sejam a escolha mais frequente: são baratos e não obrigam a alterar o projeto do circuito.</p>
+
+      <h3>Comparação dos acoplamentos</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Característica</th><th>Condensador (RC)</th><th>Transformador</th><th>Direto</th></tr>
+        <tr><td>Deixa passar tensão contínua?</td><td>Não</td><td>Não</td><td>Sim</td></tr>
+        <tr><td>Baixas frequências</td><td>Atenua</td><td>Atenua</td><td>Amplifica</td></tr>
+        <tr><td>Adaptação de impedâncias</td><td>Não</td><td>Sim</td><td>Não</td></tr>
+        <tr><td>Custo e tamanho</td><td>Baixo</td><td>Elevado</td><td>Muito baixo</td></tr>
+        <tr><td>Projeto da polarização</td><td>Andares independentes</td><td>Andares independentes</td><td>Feito em conjunto</td></tr>
+        <tr><td>Aplicações típicas</td><td>Áudio, andares discretos</td><td>Rádio-frequência, saídas de potência</td><td>Amp. operacionais, CI, Darlington</td></tr>
+      </table></div>
+      <div class="note"><b>Para pensar.</b> Justifica cada linha da tabela com o que viste nesta secção. Por exemplo: porque é que só o acoplamento direto deixa passar a tensão contínua?</div>
+    </section>
+
+    <section class="section" id="s-dimensionamento">
+      <div class="kicker-sec">§07</div>
+      <h2>Dimensionamento de amplificadores</h2>
+      <ol class="steps">
+        <li>Definir o ponto Q pretendido, consoante a classe desejada</li>
+        <li>Calcular a rede de polarização (R<sub>B</sub>, R<sub>C</sub>, R<sub>E</sub>)</li>
+        <li>Verificar a reta de carga, evitando corte e saturação (clipping)</li>
+        <li>Dimensionar condensadores de acoplamento e desacoplamento</li>
+        <li>Verificar a dissipação de potência e o dissipador térmico</li>
+      </ol>
+      <div class="circuit-wrap">
+        <svg id="loadlineSvg" viewBox="0 0 560 280" role="img" aria-label="Reta de carga e sinal de saída"></svg>
+        <div class="cw-caption">Reta de carga: excursão máxima do sinal antes de atingir corte ou saturação.</div>
+        <div class="toggle-row">
+          <button class="ll-btn active" data-mode="ok">Excursão adequada</button>
+          <button class="ll-btn" data-mode="clip">Excursão excessiva</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s-diferencial">
+      <div class="kicker-sec">§08</div>
+      <h2>O amplificador diferencial</h2>
+      <p>Um par de transístores emparelhados, com os emissores ligados a uma fonte de corrente constante (I<sub>EE</sub>). A saída é proporcional à <b>diferença</b> entre as duas entradas e, idealmente, insensível ao que é comum a ambas.</p>
+      <div class="circuit-wrap">
+        <svg id="diffSvg" viewBox="0 0 480 320" role="img" aria-label="Par diferencial de cauda longa"></svg>
+        <div class="cw-caption">Par de cauda longa: Q1 e Q2 partilham I<sub>EE</sub>; saídas V<sub>out1</sub> e V<sub>out2</sub> nos coletores.</div>
+      </div>
+      <div class="mini-scope">
+        <div class="screen" id="diffScreen" role="img" aria-label="Sinais V1, V2 e Vout"></div>
+        <div class="legend">
+          <span><i class="swatch" style="background:#6FA8DC"></i>V1</span>
+          <span><i class="swatch" style="background:#E06666"></i>V2</span>
+          <span><i class="swatch" style="background:#FFB454"></i>Vout</span>
+        </div>
+        <div class="toggle-row">
+          <button class="dm-btn active" data-mode="diff">Modo diferencial</button>
+          <button class="dm-btn" data-mode="common">Modo comum</button>
+        </div>
+      </div>
+      <div class="formula">
+        CMRR = A<sub>d</sub> / A<sub>c</sub><br>
+        CMRR (dB) = 20 × log10(A<sub>d</sub> / A<sub>c</sub>)<span class="comment">  // Ad=2000, Ac=0,5 → CMRR ≈ 72 dB</span>
+      </div>
+    </section>
+
+    <section class="section" id="s-resumo">
+      <div class="kicker-sec">§09</div>
+      <h2>Checklist final</h2>
+      <ul class="check">
+        <li>Explico o ponto Q e como determina a classe de um amplificador</li>
+        <li>Distingo as classes A, B, AB e C por ângulo de condução, rendimento e distorção</li>
+        <li>Explico a distorção de cruzamento e como a classe AB a resolve</li>
+        <li>Descrevo push-pull, THD, impedância e rendimento num amplificador de potência</li>
+        <li>Explico porque se usam andares em cascata e identifico Z<sub>in</sub>, Z<sub>out</sub> e A<sub>v</sub> de cada andar</li>
+        <li>Calculo o ganho total e a amplitude de saída de uma cascata (produto e soma em dB)</li>
+        <li>Explico porque não se pode ligar um andar diretamente ao seguinte sem cuidados de polarização</li>
+        <li>Comparo os três tipos de acoplamento (RC, transformador, direto)</li>
+        <li>Sigo as etapas de dimensionamento de um amplificador</li>
+        <li>Explico o amplificador diferencial: modo diferencial, modo comum e CMRR</li>
+      </ul>
+    </section>
+
+    <section class="section" id="s-quiz">
+      <div class="kicker-sec">§10</div>
+      <h2>Quiz de autoavaliação</h2>
+      <p>Doze perguntas sobre toda a UFCD. Depois de cada resposta vês a explicação; no fim, a nota e a revisão das que falhaste.</p>
+      <div class="quiz" id="quiz" aria-live="polite"></div>
+    </section>
+
+    <footer>
+      <b>UFCD 6013, Amplificadores com Transístores.</b> Sebenta interativa gerada a partir dos conteúdos da UFCD.<br>
+      Consulta a sebenta completa e os flashcards para aprofundar cada secção.
+    </footer>
+  </main>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var INK="#1C2420", COPPER="#C87A3E", RED="#B5322B", PH="#FFB454";
+  var sections = [
+    {id:"s-objetivos", tag:"§01", label:"Objetivos"},
+    {id:"s-revisao", tag:"§02", label:"Revisão do transístor"},
+    {id:"s-classes", tag:"§03", label:"Classes A/B/AB/C"},
+    {id:"s-potencia", tag:"§04", label:"Potência áudio"},
+    {id:"s-cascata", tag:"§05", label:"Montagens em cascata"},
+    {id:"s-acoplamento", tag:"§06", label:"Acoplamento"},
+    {id:"s-dimensionamento", tag:"§07", label:"Dimensionamento"},
+    {id:"s-diferencial", tag:"§08", label:"Amp. diferencial"},
+    {id:"s-resumo", tag:"§09", label:"Checklist"},
+    {id:"s-quiz", tag:"§10", label:"Quiz"}
+  ];
+  var navList=document.getElementById("navList"), mobileNav=document.getElementById("mobileNav");
+  sections.forEach(function(s){
+    var li=document.createElement("li"), a=document.createElement("a");
+    a.href="#"+s.id; a.dataset.target=s.id;
+    a.innerHTML='<span class="tag">'+s.tag+'</span><span>'+s.label+'</span>';
+    li.appendChild(a); navList.appendChild(li);
+    var ma=document.createElement("a"); ma.href="#"+s.id; ma.dataset.target=s.id; ma.textContent=s.label;
+    mobileNav.appendChild(ma);
+  });
+  var allLinks=document.querySelectorAll("[data-target]");
+  var sweep=document.getElementById("sweep");
+  var sectionEls=sections.map(function(s){return document.getElementById(s.id);});
+  var lastActive=null;
+  function onScroll(){
+    var d=document.documentElement, st=d.scrollTop||document.body.scrollTop, h=d.scrollHeight-d.clientHeight;
+    sweep.style.width=(h>0?st/h*100:0)+"%";
+    var cur=sectionEls[0].id;
+    sectionEls.forEach(function(el){ if(el.getBoundingClientRect().top<window.innerHeight*0.4) cur=el.id; });
+    if(cur!==lastActive){
+      lastActive=cur;
+      allLinks.forEach(function(a){ a.classList.toggle("active", a.dataset.target===cur); });
+      var m=mobileNav.querySelector('.active'); if(m && mobileNav.offsetParent!==null){ mobileNav.scrollLeft = m.offsetLeft - 16; }
+    }
+  }
+  document.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+  function sampleClass(type,x){
+    var P=Math.PI*2, xm=((x%P)+P)%P;
+    if(type==="A") return 0.5+0.42*Math.sin(x);
+    if(type==="B") return Math.max(0,Math.sin(x));
+    if(type==="AB"){ var f=0.12; return f+(1-f)*Math.max(0,Math.sin(x)); }
+    if(type==="C"){ var c=Math.PI/2, hw=0.55, dd=Math.abs(xm-c); if(dd>hw) return 0; return Math.pow(Math.cos(dd/hw*Math.PI/2),1.2); }
+    return 0.5;
+  }
+  function pathFrom(fn, o){
+    var ppp=60, per=3, tp=per*ppp, tw=per*160, d="";
+    for(var i=0;i<=tp;i++){ var x=i/ppp*Math.PI*2, px=i/tp*tw, py=o.top+(1-fn(x))*o.h; d+=(i?"L":"M")+px.toFixed(2)+" "+py.toFixed(2)+" "; }
+    return d;
+  }
+  function scopeSVG(vbH, paths, dur){
+    return '<svg viewBox="0 0 320 '+vbH+'" preserveAspectRatio="none"><g class="trace-track" style="animation-duration:'+dur+'s">'+paths+'</g></svg>';
+  }
+
+  var classInfo={
+    A:{angle:"360°",eff:"≈25% (até 50% c/ transf.)",dist:"Muito baixa",app:"Pré-amplificação, alta fidelidade"},
+    B:{angle:"180°",eff:"até ≈78,5%",dist:"Cruzamento (crossover)",app:"Potência, push-pull"},
+    AB:{angle:"180°–360°",eff:"≈50–70%",dist:"Baixa",app:"Amplificadores de potência áudio"},
+    C:{angle:"< 180°",eff:"> 80–90%",dist:"Elevada",app:"RF sintonizado"}
+  };
+  var heroScreen=document.getElementById("heroScreen"), heroControls=document.getElementById("heroControls");
+  function setHeroClass(cls){
+    var d=pathFrom(function(x){return sampleClass(cls,x);},{top:14,h:150});
+    heroScreen.innerHTML=scopeSVG(178,'<path class="trace-path" stroke="'+PH+'" d="'+d+'"/>',3.6);
+    var i=classInfo[cls];
+    document.getElementById("rAngle").textContent=i.angle;
+    document.getElementById("rEff").textContent=i.eff;
+    document.getElementById("rDist").textContent=i.dist;
+    document.getElementById("rApp").textContent=i.app;
+  }
+  ["A","B","AB","C"].forEach(function(cls){
+    var b=document.createElement("button"); b.type="button"; b.textContent="Classe "+cls; b.dataset.cls=cls;
+    b.setAttribute("aria-pressed", cls==="A"?"true":"false");
+    if(cls==="A") b.classList.add("active");
+    b.addEventListener("click",function(){
+      heroControls.querySelectorAll("button").forEach(function(x){x.classList.remove("active"); x.setAttribute("aria-pressed","false");});
+      b.classList.add("active"); b.setAttribute("aria-pressed","true"); setHeroClass(cls);
+    });
+    heroControls.appendChild(b);
+  });
+  setHeroClass("A");
+
+  (function(){
+    var ideal=pathFrom(function(x){return 0.5+0.42*Math.sin(x);},{top:10,h:100});
+    var dz=0.16;
+    var out=pathFrom(function(x){ var s=Math.sin(x), m=Math.max(Math.abs(s)-dz,0)/(1-dz); return 0.5+0.42*(s<0?-m:m); },{top:10,h:100});
+    document.getElementById("crossoverScreen").innerHTML=scopeSVG(120,
+      '<path d="'+ideal+'" fill="none" stroke="#7A8C82" stroke-width="1.6" stroke-dasharray="5 4"/>'+
+      '<path class="trace-path" stroke="'+PH+'" d="'+out+'"/>',4.2);
+  })();
+
+  var diffScreen=document.getElementById("diffScreen");
+  function renderDiff(mode){
+    function p(fn){ return pathFrom(function(x){return 0.5+0.4*fn(x);},{top:8,h:90}); }
+    var v1=p(Math.sin), v2, vo;
+    if(mode==="diff"){ v2=p(function(x){return -Math.sin(x);}); vo=p(function(x){return Math.max(-1,Math.min(1,1.3*Math.sin(x)));}); }
+    else { v2=p(Math.sin); vo=p(function(){return 0;}); }
+    diffScreen.innerHTML=scopeSVG(106,
+      '<path d="'+v1+'" fill="none" stroke="#6FA8DC" stroke-width="1.6" opacity=".85"/>'+
+      '<path d="'+v2+'" fill="none" stroke="#E06666" stroke-width="1.6" stroke-dasharray="4 3" opacity=".85"/>'+
+      '<path class="trace-path" stroke="'+PH+'" style="stroke-width:2.4" d="'+vo+'"/>',4);
+  }
+  renderDiff("diff");
+  function wireToggle(sel, fn){
+    var btns=document.querySelectorAll(sel);
+    btns.forEach(function(b){ b.type="button"; b.addEventListener("click",function(){ btns.forEach(function(x){x.classList.remove("active");}); b.classList.add("active"); fn(b); }); });
+  }
+  wireToggle(".dm-btn",function(b){renderDiff(b.dataset.mode);});
+
+  function T(x,y,txt,o){ o=o||{}; return '<text x="'+x+'" y="'+y+'" font-family="IBM Plex Mono, monospace" font-size="'+(o.s||11)+'" fill="'+(o.f||"#8A8A8A")+'" text-anchor="'+(o.a||"start")+'"'+(o.w?' font-weight="'+o.w+'"':'')+(o.t?' transform="'+o.t+'"':'')+'>'+txt+'</text>'; }
+  function L(x1,y1,x2,y2,w,c,extra){ return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+(c||INK)+'" stroke-width="'+(w||2)+'"'+(extra||'')+'/>'; }
+
+  /* Push-pull */
+  (function(){
+    var svg=document.getElementById("pushpullSvg");
+    function bjt(cx,cy,kind,label,up){
+      var cY=up?cy-42:cy+42, eY=up?cy+42:cy-42, X=cx+42;
+      var g='<g class="'+(kind==="NPN"?"q1-group":"q2-group")+'">';
+      g+=L(cx,cy-32,cx,cy+32,3)+L(cx-48,cy,cx,cy,2.4,COPPER);
+      g+=L(cx,up?cy-14:cy+14,X,cY,2.2)+L(cx,up?cy+14:cy-14,X,eY,2.2,INK,' class="flow-dash"');
+      g+=T(cx-24,cy-8,label,{s:13,f:COPPER,a:"middle",w:600})+T(X+8,cy-2,kind);
+      return {svg:g+'</g>',coll:[X,cY],emit:[X,eY],base:[cx-48,cy]};
+    }
+    var q1=bjt(300,110,"NPN","Q1",true), q2=bjt(300,210,"PNP","Q2",false), o='';
+    o+=L(80,40,580,40,2.5)+T(70,45,"+VCC",{s:14,f:INK,a:"end",w:600});
+    o+=L(80,280,580,280,2.5)+T(70,285,"−VCC",{s:14,f:INK,a:"end",w:600});
+    o+=L(q1.coll[0],q1.coll[1],q1.coll[0],40,2.2)+L(q2.coll[0],q2.coll[1],q2.coll[0],280,2.2);
+    o+=q1.svg+q2.svg;
+    var mY=(q1.emit[1]+q2.emit[1])/2, ex=q1.emit[0], cX=ex+70;
+    o+=L(ex,q1.emit[1],ex,mY,2.2)+L(ex,q2.emit[1],ex,mY,2.2)+'<circle cx="'+ex+'" cy="'+mY+'" r="4" fill="'+INK+'"/>';
+    o+=L(ex,mY,cX-8,mY,2.2)+L(cX-4,mY-14,cX-4,mY+14,2.4)+L(cX+4,mY-14,cX+4,mY+14,2.4)+L(cX+8,mY,531,mY,2.2);
+    o+='<circle cx="555" cy="'+mY+'" r="24" fill="#fff" stroke="'+INK+'" stroke-width="2.2"/>';
+    o+=L(539,mY-16,571,mY+16,1.6)+L(539,mY+16,571,mY-16,1.6)+T(545,mY+44,"RL (altifalante)",{a:"end"});
+    o+=L(555,mY+24,555,280,2);
+    var bY=(q1.base[1]+q2.base[1])/2;
+    o+='<circle cx="110" cy="'+bY+'" r="20" fill="#fff" stroke="'+INK+'" stroke-width="2"/>';
+    o+='<path d="M 98 '+bY+' q 6 -12 12 0 q 6 12 12 0" fill="none" stroke="'+COPPER+'" stroke-width="1.8"/>';
+    o+=L(130,bY,200,bY,1.6)+L(200,bY,200,q1.base[1],1.6)+L(200,bY,200,q2.base[1],1.6);
+    o+=L(200,q1.base[1],q1.base[0],q1.base[1],1.6)+L(200,q2.base[1],q2.base[0],q2.base[1],1.6);
+    o+='<circle cx="200" cy="'+bY+'" r="3" fill="'+INK+'"/>'+T(110,bY+40,"Ve",{a:"middle"});
+    svg.innerHTML=o; svg.classList.add("pp-auto");
+    wireToggle(".pp-btn",function(b){ svg.classList.remove("pp-auto","pp-pos","pp-neg"); svg.classList.add("pp-"+b.dataset.phase); });
+  })();
+
+  /* Diferencial */
+  (function(){
+    var svg=document.getElementById("diffSvg"), o='';
+    o+='<defs><marker id="arrowD" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="'+INK+'"/></marker></defs>';
+    o+=L(60,30,420,30,2.4)+T(40,35,"+VCC",{s:13,f:INK,a:"end",w:600});
+    o+=L(60,290,420,290,2.4)+T(40,295,"−VEE",{s:13,f:INK,a:"end",w:600});
+    function tr(cx,cy,label,dir){
+      var s=dir||1, e=cx+34*s, b=cx-38*s;
+      var g=L(cx,cy-26,cx,cy+26,2.6)+L(b,cy,cx,cy,2,COPPER)+L(cx,cy-14,e,cy-30,1.8)+L(cx,cy+14,e,cy+30,1.8)+T(b-8*s,cy-8,label,{s:12,f:COPPER,a:s>0?"end":"start",w:600});
+      return {svg:g,top:[e,cy-30],bot:[e,cy+30],base:[b,cy]};
+    }
+    var q1=tr(150,130,"Q1",1), q2=tr(310,130,"Q2",-1);
+    o+=q1.svg+q2.svg;
+    function res(x,y0,y1){ var seg=6,w=8,dy=(y1-y0)/seg,pts=[[x,y0]]; for(var i=1;i<seg;i++) pts.push([x+(i%2?w:-w),y0+dy*i]); pts.push([x,y1]); return '<path d="M'+pts.map(function(p){return p[0]+" "+p[1];}).join(" L ")+'" fill="none" stroke="'+INK+'" stroke-width="2"/>'; }
+    o+=L(q1.top[0],30,q1.top[0],40,1.8)+L(q2.top[0],30,q2.top[0],40,1.8);
+    o+=res(q1.top[0],40,86)+res(q2.top[0],40,86);
+    o+=L(q1.top[0],86,q1.top[0],q1.top[1],1.8)+L(q2.top[0],86,q2.top[0],q2.top[1],1.8);
+    o+=L(q1.top[0],92,q1.top[0]-40,92,1.6)+T(q1.top[0]-46,96,"Vout1",{a:"end"});
+    o+=L(q2.top[0],92,q2.top[0]+40,92,1.6)+T(q2.top[0]+46,96,"Vout2");
+    o+=T(q1.top[0]+12,66,"RC1",{s:10})+T(q2.top[0]+12,66,"RC2",{s:10});
+    o+=L(q1.base[0],q1.base[1],60,q1.base[1],1.6)+T(46,q1.base[1]+4,"V1",{s:13,f:INK,a:"end",w:600});
+    o+=L(q2.base[0],q2.base[1],420,q2.base[1],1.6)+T(434,q2.base[1]+4,"V2",{s:13,f:INK,w:600});
+    var mY=190, mX=(q1.bot[0]+q2.bot[0])/2;
+    o+=L(q1.bot[0],q1.bot[1],q1.bot[0],mY,1.8)+L(q2.bot[0],q2.bot[1],q2.bot[0],mY,1.8)+L(q1.bot[0],mY,q2.bot[0],mY,1.8);
+    o+='<circle cx="'+mX+'" cy="'+mY+'" r="4" fill="'+INK+'"/>'+L(mX,mY,mX,mY+24,1.8);
+    o+='<circle cx="'+mX+'" cy="'+(mY+40)+'" r="16" fill="#fff" stroke="'+INK+'" stroke-width="1.8"/>';
+    o+=L(mX,mY+30,mX,mY+50,1.6,INK,' marker-end="url(#arrowD)"')+T(mX+26,mY+44,"IEE",{s:12});
+    o+=L(mX,mY+56,mX,290,1.8);
+    svg.innerHTML=o;
+  })();
+
+  /* Ícones de acoplamento */
+  function coupling(id,kind){
+    var o='<rect x="4" y="18" width="34" height="24" rx="3" fill="#F1EAD8" stroke="'+INK+'" stroke-width="1.4"/>';
+    o+='<rect x="122" y="18" width="34" height="24" rx="3" fill="#F1EAD8" stroke="'+INK+'" stroke-width="1.4"/>';
+    o+=T(21,34,"A1",{s:9,f:INK,a:"middle"})+T(139,34,"A2",{s:9,f:INK,a:"middle"});
+    if(kind==="direct"){ o+=L(38,30,122,30,2.4,COPPER); }
+    else {
+      o+=L(38,30,70,30,1.6)+L(90,30,122,30,1.6);
+      if(kind==="rc") o+=L(76,18,76,42,2.2)+L(84,18,84,42,2.2);
+      else { o+='<path d="M70,30 L72,30 M72,18 a5,5 0 0 1 0,8 a5,5 0 0 1 0,8 a5,5 0 0 1 0,8" fill="none" stroke="'+INK+'" stroke-width="1.6"/>';
+             o+='<path d="M88,18 a5,5 0 0 0 0,8 a5,5 0 0 0 0,8 a5,5 0 0 0 0,8" fill="none" stroke="'+INK+'" stroke-width="1.6"/>';
+             o+=L(79,14,79,46,1)+L(81,14,81,46,1); }
+    }
+    document.getElementById(id).innerHTML=o;
+  }
+  coupling("cRC","rc"); coupling("cTransf","transf"); coupling("cDirect","direct");
+
+  /* Reta de carga */
+  function renderLoadLine(mode){
+    var svg=document.getElementById("loadlineSvg"), ox=60, oy=230, w=260, h=190, o='';
+    o+=L(ox,oy,ox+w,oy,1.6)+L(ox,oy,ox,oy-h,1.6);
+    o+=T(ox+w/2,oy+22,"VCE",{f:"#666",a:"middle"})+T(ox-10,oy-h+4,"IC",{f:"#666",a:"end"});
+    o+='<rect x="'+ox+'" y="'+(oy-h)+'" width="26" height="'+h+'" fill="'+RED+'" opacity="0.08"/>';
+    o+=T(ox+16,oy-h/2,"SATURAÇÃO",{s:9,f:RED,a:"middle",t:"rotate(-90 "+(ox+16)+" "+(oy-h/2)+")"});
+    o+=L(ox,oy-h,ox+w,oy,2.4,COPPER);
+    var qx=ox+w/2, qy=oy-h/2;
+    o+='<circle cx="'+qx+'" cy="'+qy+'" r="4.5" fill="'+INK+'"/>'+T(qx+8,qy-8,"Q",{s:13,f:INK,w:700});
+    o+=T(ox+w-8,oy-10,"CORTE",{s:9,f:RED,a:"end"});
+    var px=ox+w+40, py=oy-h, pw=170, ph=h, mid=py+ph/2, amp=mode==="clip"?ph*0.62:ph*0.34, cT=py+ph*0.06, cB=py+ph*0.94, d="";
+    o+='<rect x="'+px+'" y="'+py+'" width="'+pw+'" height="'+ph+'" fill="#0A1D14" rx="6"/>';
+    for(var i=0;i<=80;i++){ var x=px+i/80*pw, y=mid-amp*Math.sin(i/80*Math.PI*4); if(mode==="clip") y=Math.max(cT,Math.min(cB,y)); d+=(i?"L":"M")+x.toFixed(1)+" "+y.toFixed(1)+" "; }
+    o+='<path d="'+d+'" fill="none" stroke="'+(mode==="clip"?PH:"#7FE7C4")+'" stroke-width="2.2"/>';
+    o+=T(px+pw/2,py+ph+18,mode==="clip"?"Saída com clipping":"Saída sem distorção",{s:10.5,f:"#666",a:"middle"});
+    svg.innerHTML=o;
+  }
+  renderLoadLine("ok");
+  wireToggle(".ll-btn",function(b){renderLoadLine(b.dataset.mode);});
+
+  /* Derating */
+  (function(){
+    var svg=document.getElementById("deratingSvg"), ox=60, oy=210, w=420, h=160, o='';
+    o+=L(ox,oy,ox+w,oy,1.6)+L(ox,oy,ox,oy-h,1.6);
+    o+=T(ox+w/2,oy+30,"Temperatura TC (°C)",{f:"#666",a:"middle"})+T(ox-12,oy-h-10,"PD (%)",{f:"#666"});
+    var x0=ox+25/190*w, y0=oy-h, x1=ox+175/190*w;
+    o+=L(x0,y0,x1,oy,2.6,COPPER)+L(x0,y0,ox,y0,1,"#999",' stroke-dasharray="3 3"')+L(x0,y0,x0,oy,1,"#999",' stroke-dasharray="3 3"');
+    o+=T(x0+6,y0-6,"100% até 25°C",{s:10,f:"#666"});
+    o+='<circle cx="'+x1+'" cy="'+oy+'" r="3.5" fill="'+RED+'"/>'+T(x1,oy+18,"TJ(máx)=175°C",{s:10,f:RED,a:"end"});
+    svg.innerHTML=o;
+  })();
+
+  /* Simulador de cascata */
+  (function(){
+    var svg=document.getElementById("cascadeSvg"), gainsBox=document.getElementById("cascGains");
+    var vinEl=document.getElementById("cascVin"), N=2, gains=[40,40,40,40];
+    var nf=function(v){ if(!isFinite(v)) return "—"; var a=Math.abs(v);
+      var d = a>=100?0 : a>=10?1 : a>=1?2 : a>=0.01?3 : 4;
+      return v.toLocaleString("pt-PT",{maximumFractionDigits:d}); };
+    function num(el){ var v=parseFloat(String(el.value).replace(",",".")); return isFinite(v)&&v>=0?v:0; }
+    function buildGains(){
+      var h=""; for(var k=0;k<N;k++) h+='<label>G'+(k+1)+' ('+(k+1)+'.º andar)<input type="number" min="0" step="1" inputmode="decimal" data-k="'+k+'" value="'+gains[k]+'"></label>';
+      gainsBox.innerHTML=h;
+      gainsBox.querySelectorAll("input").forEach(function(inp){ inp.addEventListener("input",function(){ gains[+inp.dataset.k]=num(inp); update(); }); });
+    }
+    function wave(x,cy,w,amp,col){
+      var d=""; for(var i=0;i<=40;i++){ var xx=x+i/40*w, yy=cy-amp*Math.sin(i/40*Math.PI*2*1.5); d+=(i?"L":"M")+xx.toFixed(1)+" "+yy.toFixed(1)+" "; }
+      return '<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2" stroke-linecap="round"/>';
+    }
+    function update(){
+      var vin=num(vinEl), amps=[vin], G=1;
+      for(var k=0;k<N;k++){ G*=gains[k]; amps.push(amps[k]*gains[k]); }
+      var W=680, bw=88, cy=95, gap=(W-N*bw)/(N+1), o="";
+      var lo=Math.log10(Math.max(vin,1e-9)), hi=Math.log10(Math.max(amps[N],1e-9)), span=hi-lo;
+      function A(v){ if(v<=0) return 0; if(span<=0.0001) return 18; return 6+46*((Math.log10(v)-lo)/span); }
+      for(var k=0;k<=N;k++){
+        var segStart = k===0?6:gap*k+bw*k, segW = gap-12;
+        o+=L(segStart, cy, segStart+segW, cy, 1, "#C9C2B0", ' stroke-dasharray="3 3"');
+        o+=wave(segStart+4, cy, segW-8, A(amps[k]), k===N?"#B5322B":(k===0?"#2E8B57":"#C87A3E"));
+        var lab = k===0?"vᵢ":(k===N?"vₒ":"vₒ"+k+"=vᵢ"+(k+1));
+        o+=T(segStart+segW/2, 178, lab, {s:11,f:"#1C2420",a:"middle"});
+        o+=T(segStart+segW/2, 196, nf(amps[k])+" Vpp", {s:11,f:k===N?"#B5322B":"#4B564F",a:"middle",w:600});
+        if(k<N){
+          var bx=gap*(k+1)+bw*k;
+          o+=L(segStart+segW, cy, bx, cy, 1.6, "#1C2420", ' marker-end="url(#cArr)"');
+          o+='<rect x="'+bx+'" y="'+(cy-38)+'" width="'+bw+'" height="76" rx="6" fill="#F1EAD8" stroke="#1C2420" stroke-width="1.4"/>';
+          o+=T(bx+bw/2, cy-16, (k+1)+".º andar", {s:11,f:"#0F3D2E",a:"middle",w:700});
+          o+=T(bx+bw/2, cy+4, "G = "+nf(gains[k]), {s:12,f:"#C87A3E",a:"middle",w:700});
+          o+=T(bx+bw/2, cy+22, "Zin · Zout", {s:9,f:"#8A8A8A",a:"middle"});
+        }
+      }
+      svg.innerHTML='<defs><marker id="cArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1C2420"/></marker></defs>'+o;
+      var t='<tr><th>Andar</th><th>Ganho</th><th>Entrada (Vpp)</th><th>Saída (Vpp)</th></tr>';
+      for(var k=0;k<N;k++) t+='<tr><td>'+(k+1)+'.º</td><td>'+nf(gains[k])+'</td><td>S'+k+' = '+nf(amps[k])+'</td><td>S'+(k+1)+' = '+nf(gains[k])+' × '+nf(amps[k])+' = <b>'+nf(amps[k+1])+'</b></td></tr>';
+      document.getElementById("cascTable").innerHTML=t;
+      document.getElementById("cascG").textContent=nf(G);
+      document.getElementById("cascDb").textContent= G>0 ? nf(20*Math.log10(G))+" dB" : "—";
+      document.getElementById("cascOut").textContent=nf(amps[N])+" Vpp";
+      document.getElementById("cascWarn").classList.toggle("on", amps[N]>20);
+    }
+    var nb=document.querySelectorAll("#cascN button");
+    nb.forEach(function(b){ b.type="button"; b.addEventListener("click",function(e){ e.preventDefault(); nb.forEach(function(x){x.classList.remove("active");}); b.classList.add("active"); N=+b.dataset.n; buildGains(); update(); }); });
+    vinEl.addEventListener("input",update);
+    buildGains(); update();
+  })();
+
+  /* Acoplamento: direto vs condensador */
+  (function(){
+    var svg=document.getElementById("couplingSvg"), scope=document.getElementById("cpScope");
+    function R(x,y1,y2,lab,side){ var h=y2-y1; return '<rect x="'+(x-7)+'" y="'+y1+'" width="14" height="'+h+'" fill="#fff" stroke="'+INK+'" stroke-width="1.6"/>'+T(side==="l"?x-12:x+12,y1+h/2+4,lab,{s:10,f:"#4B564F",a:side==="l"?"end":"start"}); }
+    function bjt(cx,cy,lab){
+      var o='<circle cx="'+cx+'" cy="'+cy+'" r="22" fill="#fff" stroke="'+INK+'" stroke-width="1.5"/>';
+      o+=L(cx-22,cy,cx-8,cy,1.8)+L(cx-8,cy-13,cx-8,cy+13,2.6);
+      o+=L(cx-8,cy-6,cx+20,cy-22,1.8)+L(cx+20,cy-22,cx+20,cy-40,1.8);
+      o+=L(cx-8,cy+6,cx+20,cy+22,1.8)+L(cx+20,cy+22,cx+20,cy+50,1.8);
+      o+='<path d="M'+(cx+20)+','+(cy+22)+' l-9,-1 l5,-7 z" fill="'+INK+'"/>';
+      o+=T(cx-30,cy-24,lab,{s:11,f:INK,w:700,a:"end"});
+      return o;
+    }
+    function gnd(x){ return L(x-8,270,x+8,270,1.6); }
+    function cap(x1,x2,y,col){ var m=(x1+x2)/2; return L(x1,y,m-4,y,1.8,col)+L(m-4,y-12,m-4,y+12,2.4,col)+L(m+4,y-12,m+4,y+12,2.4,col)+L(m+4,y,x2,y,1.8,col); }
+    function render(mode){
+      var direct=mode==="direct", o='';
+      o+='<defs><marker id="dcArr" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="'+RED+'"/></marker></defs>';
+      o+=L(40,40,600,40,1.8)+T(604,44,"+20 V",{s:11,f:INK,w:600});
+      o+=L(40,270,600,270,1.4,"#999")+T(604,274,"0 V",{s:11,f:"#666"});
+      o+=L(285,30,285,282,1,"#999",' stroke-dasharray="4 4"');
+      o+=T(150,292,"1.º andar",{s:11,f:"#4B564F",a:"middle"})+T(450,292,"2.º andar",{s:11,f:"#4B564F",a:"middle"});
+      /* andar 1 */
+      o+=L(120,40,120,55,1.6)+R(120,55,95,"R1","l")+L(120,95,120,150,1.6)+L(120,150,120,190,1.6)+R(120,190,230,"R2","l")+L(120,230,120,270,1.6);
+      o+=T(46,140,"entrada",{s:10,f:"#666"})+L(46,150,70,150,1.6)+cap(70,100,150,INK)+L(100,150,158,150,1.6)+'<circle cx="120" cy="150" r="2.6" fill="'+INK+'"/>';
+      o+=L(200,40,200,55,1.6)+R(200,55,95,"RC1","r")+L(200,95,200,128,1.6)+bjt(180,150,"T₁")+L(200,200,200,205,1.6)+R(200,205,245,"RE1","r")+L(200,245,200,270,1.6);
+      o+='<circle cx="200" cy="110" r="3" fill="'+COPPER+'"/>'+T(194,105,"VC1 = 10 V",{s:10.5,f:COPPER,w:700,a:"end"});
+      /* acoplamento */
+      o+=L(200,110,250,110,1.8);
+      if(direct){ o+=L(250,110,310,110,3,RED); o+=T(280,100,"fio",{s:10,f:RED,a:"middle",w:600}); }
+      else { o+=cap(250,310,110,INK); o+=T(280,88,"C acopl.",{s:10,f:COPPER,a:"middle",w:600}); }
+      o+=L(310,110,330,110,1.8,direct?RED:INK)+L(330,110,330,150,1.8,direct?RED:INK)+L(330,150,398,150,1.8,direct?RED:INK);
+      /* andar 2 */
+      o+=L(360,40,360,55,1.6)+R(360,55,95,"R3","r")+L(360,95,360,150,1.6)+L(360,150,360,190,1.6)+R(360,190,230,"R4","r")+L(360,230,360,270,1.6);
+      o+='<circle cx="360" cy="150" r="3" fill="'+(direct?RED:"#2E8B57")+'"/>';
+      o+=T(352,174,"VB2 = "+(direct?"10 V":"3 V"),{s:10.5,f:direct?RED:"#2E8B57",w:700,a:"end"});
+      o+=L(440,40,440,55,1.6)+R(440,55,95,"RC2","r")+L(440,95,440,128,1.6)+bjt(420,150,"T₂")+L(440,200,440,205,1.6)+R(440,205,245,"RE2","r")+L(440,245,440,270,1.6);
+      o+=L(440,110,500,110,1.6)+cap(500,530,110,INK)+L(530,110,560,110,1.6)+'<circle cx="560" cy="110" r="3" fill="none" stroke="'+INK+'" stroke-width="1.5"/>'+T(560,98,"saída",{s:10,f:"#666",a:"middle"});
+      if(direct) o+=L(318,196,352,156,1.6,RED,' marker-end="url(#dcArr)" class="flow-dash"')+T(292,212,"10 V DC",{s:9.5,f:RED})+T(292,224,"na base",{s:9.5,f:RED});
+      else o+=T(289,212,"bloqueia DC",{s:9,f:"#2E8B57"})+T(289,224,"passa AC",{s:9.5,f:"#2E8B57"});
+      svg.innerHTML=o;
+      document.getElementById("cpVb").textContent=direct?"10 V (forçada)":"3 V";
+      var q=document.getElementById("cpQ"); q.textContent=direct?"Deslocado, T₂ satura":"Mantém-se"; q.className="rp-value "+(direct?"ko-txt":"ok-txt");
+      var ac=document.getElementById("cpAc"); ac.textContent=direct?"Sai distorcido / perdido":"Passa para T₂"; ac.className="rp-value "+(direct?"ko-txt":"ok-txt");
+      document.getElementById("cpCaption").textContent=direct
+        ? "Com um fio, os 10 V do coletor de T₁ ficam na base de T₂ (que devia estar a 3 V). T₂ sai do ponto Q e o sinal deixa de ser amplificado corretamente."
+        : "O condensador de acoplamento bloqueia a componente contínua: cada andar mantém a sua polarização, e só o sinal alternado passa para T₂.";
+      var d="", W=300, H=130, mid=H/2;
+      for(var i=0;i<=120;i++){ var x=i/120*W, y;
+        if(direct){ y=H*0.86 - 3*Math.sin(i/120*Math.PI*6); }
+        else { y=mid-H*0.32*Math.sin(i/120*Math.PI*6); }
+        d+=(i?"L":"M")+x.toFixed(1)+" "+y.toFixed(1)+" "; }
+      scope.innerHTML='<path d="'+d+'" fill="none" stroke="'+(direct?PH:"#7FE7C4")+'" stroke-width="2.4" vector-effect="non-scaling-stroke"/>';
+    }
+    render("cap");
+    wireToggle(".cp-btn",function(b){ render(b.dataset.mode); });
+  })();
+  /* Quiz */
+  (function(){
+    var Q=[
+      {q:"Qual é o ângulo de condução de um amplificador em classe A?",o:["180°","Menos de 180°","360°","Entre 180° e 360°"],a:2,e:"Em classe A o transístor conduz durante todo o ciclo (360°), o que dá distorção muito baixa mas rendimento reduzido."},
+      {q:"Qual o rendimento teórico máximo de um amplificador push-pull em classe B?",o:["≈25%","≈50%","≈78,5%","≈95%"],a:2,e:"O limite teórico da classe B é π/4 ≈ 78,5%, porque cada transístor só conduz meio ciclo."},
+      {q:"A distorção de cruzamento (crossover) surge porque…",o:["o condensador de acoplamento satura","nenhum transístor conduz enquanto o sinal não vence a tensão VBE (≈0,6–0,7 V)","o altifalante tem impedância demasiado baixa","o ganho β dos transístores é diferente"],a:1,e:"Junto à passagem por zero, o sinal ainda não ultrapassou VBE de nenhum dos transístores, por isso a saída fica 'parada' por instantes."},
+      {q:"Porque é que a classe AB é a mais usada em amplificadores de potência áudio?",o:["Tem o rendimento mais alto de todas as classes","Elimina a distorção de cruzamento mantendo um rendimento razoável","Não precisa de polarização","Só usa um transístor"],a:1,e:"Uma pequena corrente de repouso (ICQ) põe os dois transístores ligeiramente em condução, eliminando o crossover sem cair no rendimento baixo da classe A."},
+      {q:"A classe C é usada sobretudo em…",o:["Pré-amplificadores de microfone","Amplificadores de RF sintonizados","Amplificadores de auscultadores","Fontes de alimentação lineares"],a:1,e:"A classe C tem distorção elevada, mas o circuito LC sintonizado reconstrói a sinusoide. Por isso aparece em emissores de RF, onde o rendimento alto compensa."},
+      {q:"Três andares com ganhos de 10, 15 e 8 ligados em cascata. Qual o ganho total?",o:["33","120","1200","150"],a:2,e:"Em valor absoluto os ganhos multiplicam-se: 10 × 15 × 8 = 1200."},
+      {q:"Três andares com 20 dB, 23,5 dB e 18 dB em cascata. Qual o ganho total?",o:["8460 dB","61,5 dB","20,5 dB","41,5 dB"],a:1,e:"Em decibéis os ganhos somam-se: 20 + 23,5 + 18 = 61,5 dB."},
+      {q:"Dois andares com ganho 40 cada recebem 0,01 Vpp na entrada. Qual a amplitude na saída?",o:["0,8 Vpp","0,4 Vpp","16 Vpp","80 Vpp"],a:2,e:"S₁ = 40 × 0,01 = 0,4 Vpp; S₂ = 40 × 0,4 = 16 Vpp. O ganho total é 40 × 40 = 1600."},
+      {q:"Porque não se liga o coletor do 1.º andar diretamente à base do 2.º com um fio?",o:["Porque o sinal AC ficaria bloqueado","Porque a tensão contínua do 1.º andar alteraria o ponto de funcionamento do 2.º","Porque o ganho total passaria a ser a soma dos ganhos","Porque o transístor do 1.º andar entraria em classe C"],a:1,e:"A tensão DC de saída do 1.º andar (por exemplo 10 V) ficaria aplicada à base do 2.º (polarizada a 3 V), deslocando o ponto Q. O acoplamento deve bloquear DC e deixar passar AC."},
+      {q:"Qual o tipo de acoplamento que permite amplificar sinais DC?",o:["RC","Por transformador","Direto","Capacitivo"],a:2,e:"Só o acoplamento direto deixa passar a componente contínua; condensador e transformador bloqueiam DC."},
+      {q:"Num amplificador em classe A, se a excursão do sinal for excessiva, o que acontece à saída?",o:["Aumenta o rendimento","Fica cortada (clipping) ao atingir corte ou saturação","Passa a funcionar em classe C","Nada, o ganho ajusta-se sozinho"],a:1,e:"O sinal não pode ir além dos limites da reta de carga; os picos são cortados, criando distorção harmónica."},
+      {q:"Um amplificador diferencial tem Ad = 2000 e Ac = 0,5. Qual o CMRR aproximado?",o:["≈36 dB","≈60 dB","≈72 dB","≈4000 dB"],a:2,e:"CMRR = Ad/Ac = 4000; em dB: 20 × log10(4000) ≈ 72 dB."}
+    ];
+    var box=document.getElementById("quiz"), i=0, score=0, answers=[], KEY="ufcd6013-quiz-best";
+    function best(){ try{ var v=localStorage.getItem(KEY); return v===null?null:parseInt(v,10); }catch(e){ return null; } }
+    function saveBest(s){ try{ var b=best(); if(b===null||s>b) localStorage.setItem(KEY,String(s)); }catch(e){} }
+    function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+    function render(){
+      var q=Q[i], L="ABCD";
+      var html='<div class="quiz-top"><span>Pergunta '+(i+1)+' de '+Q.length+'</span><span>Certas: '+score+'</span></div>';
+      html+='<div class="quiz-bar"><i style="width:'+(i/Q.length*100)+'%"></i></div>';
+      html+='<div class="quiz-q">'+esc(q.q)+'</div><div class="quiz-opts">';
+      q.o.forEach(function(t,k){ html+='<button type="button" data-k="'+k+'"><span class="k">'+L[k]+'</span><span>'+esc(t)+'</span></button>'; });
+      html+='</div><div id="quizAfter"></div>';
+      box.innerHTML=html;
+      box.querySelectorAll(".quiz-opts button").forEach(function(b){ b.addEventListener("click",function(){ answer(parseInt(b.dataset.k,10)); }); });
+    }
+    function answer(k){
+      var q=Q[i], ok=k===q.a; if(ok) score++; answers.push(k);
+      box.querySelectorAll(".quiz-opts button").forEach(function(b){ var n=parseInt(b.dataset.k,10); b.disabled=true; if(n===q.a) b.classList.add("right"); else if(n===k) b.classList.add("wrong"); });
+      box.querySelector(".quiz-top span:last-child").textContent="Certas: "+score;
+      var last=i===Q.length-1;
+      document.getElementById("quizAfter").innerHTML='<div class="quiz-fb"><b>'+(ok?"Certo.":"Não é essa.")+'</b> '+esc(q.e)+'</div><div class="quiz-actions"><button type="button" class="btn" id="quizNext">'+(last?"Ver resultado":"Pergunta seguinte")+'</button></div>';
+      var nb=document.getElementById("quizNext"); nb.focus({preventScroll:true});
+      nb.addEventListener("click",function(){ if(last) finish(); else { i++; render(); } });
+    }
+    function finish(){
+      var pct=Math.round(score/Q.length*100), prev=best(); saveBest(score);
+      var msg = pct>=90?"Excelente, dominas a UFCD.":pct>=70?"Bom resultado. Revê as que falhaste.":pct>=50?"Suficiente. Vale a pena rever as secções indicadas abaixo.":"Ainda há matéria a consolidar. Revê a sebenta e tenta de novo.";
+      var html='<div class="quiz-bar"><i style="width:100%"></i></div><div>Resultado</div><div class="quiz-score">'+score+'/'+Q.length+'</div><p>'+msg+'</p>';
+      if(prev!==null) html+='<p style="color:var(--ink-soft);font-size:.9rem">Melhor resultado anterior neste dispositivo: '+Math.max(prev,0)+'/'+Q.length+'</p>';
+      var wrong=Q.map(function(q,n){return {q:q,n:n};}).filter(function(x){return answers[x.n]!==x.q.a;});
+      if(wrong.length){ html+='<ul class="quiz-review">'; wrong.forEach(function(x){ html+='<li><b class="ko">P'+(x.n+1)+'.</b> '+esc(x.q.q)+'<br>Resposta certa: <b class="ok">'+esc(x.q.o[x.q.a])+'</b></li>'; }); html+='</ul>'; }
+      html+='<div class="quiz-actions"><button type="button" class="btn" id="quizAgain">Repetir o quiz</button></div>';
+      box.innerHTML=html;
+      document.getElementById("quizAgain").addEventListener("click",function(){ i=0; score=0; answers=[]; render(); });
+    }
+    render();
+  })();
+})();
+</script>
+</body>
+</html>
+
+</body></html>
